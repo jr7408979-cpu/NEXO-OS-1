@@ -1,1 +1,26 @@
+name: NEXO Tests
 
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar NEXO
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r nexo/requirements.txt
+
+      - name: Comprobar sintaxis
+        run: |
+          python -m compileall app
