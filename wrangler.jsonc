@@ -1,0 +1,5 @@
+{
+  "name": "nexo-os-1",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01"
+}
