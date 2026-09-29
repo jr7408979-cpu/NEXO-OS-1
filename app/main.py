@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from core.boot import BootManager
 from services.health import get_health_status
 from services.language import detect_language
 from services.self_healing import SelfHealing
