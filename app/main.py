@@ -6,7 +6,7 @@ from services.self_healing import SelfHealing
 
 
 app = FastAPI(title="NEXO OS")
-
+boot_manager = BootManager()
 self_healing = SelfHealing()
 
 
