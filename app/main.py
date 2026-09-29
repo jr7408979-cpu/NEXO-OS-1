@@ -1,26 +1,39 @@
 from fastapi import FastAPI
-from core.boot import BootManager
+
+from core.boot_manager import BootManager
 from services.health import get_health_status
 from services.language import detect_language
 from services.self_healing import SelfHealing
 
 
 app = FastAPI(title="NEXO OS")
+
 boot_manager = BootManager()
 self_healing = SelfHealing()
+
+boot_result = boot_manager.start()
 
 
 @app.get("/")
 def root():
     return {
         "name": "NEXO OS",
-        "status": "online",
+        "status": boot_manager.status(),
+        "boot": boot_result,
     }
 
 
 @app.get("/health")
 def health():
     return get_health_status()
+
+
+@app.get("/system/status")
+def system_status():
+    return {
+        "status": boot_manager.status(),
+        "boot": boot_result,
+    }
 
 
 @app.post("/language/detect")
