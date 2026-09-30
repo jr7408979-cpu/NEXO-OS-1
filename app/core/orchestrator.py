@@ -1,28 +1,30 @@
 from typing import Any, Awaitable, Callable
 
+from app.core.ai import ai_client
+
 
 Agent = Callable[[dict[str, Any]], Awaitable[Any]]
 
 
 class AIOrchestrator:
-    """Orquestador central para coordinar agentes de IA de NEXO OS."""
+    """Orquestador central de los agentes de IA de NEXO OS."""
 
     def __init__(self) -> None:
         self._agents: dict[str, Agent] = {}
 
     def register_agent(self, name: str, agent: Agent) -> None:
-        """Registra un agente de IA."""
+        """Registra un agente."""
         if not name.strip():
             raise ValueError("El nombre del agente no puede estar vacío.")
 
         self._agents[name] = agent
 
     def unregister_agent(self, name: str) -> None:
-        """Elimina un agente registrado."""
+        """Elimina un agente."""
         self._agents.pop(name, None)
 
     def list_agents(self) -> list[str]:
-        """Devuelve los nombres de los agentes registrados."""
+        """Lista los agentes registrados."""
         return list(self._agents.keys())
 
     async def run_agent(
@@ -55,6 +57,11 @@ class AIOrchestrator:
                 }
 
         return results
+
+    @property
+    def ai_available(self) -> bool:
+        """Indica si NEXO OS tiene una API de IA configurada."""
+        return ai_client.configured
 
 
 orchestrator = AIOrchestrator()
