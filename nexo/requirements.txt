@@ -1,2 +1,9 @@
 fastapi
 uvicorn[standard]
+httpx
+pydantic-settings
+pytest
+sqlalchemy
+aiogram
+discord.py
+
