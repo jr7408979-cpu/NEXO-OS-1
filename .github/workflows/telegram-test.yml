@@ -1,0 +1,20 @@
+name: NEXO OS Telegram Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  telegram-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Probar conexión con Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          RESPONSE=$(curl -s \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe")
+
+          echo "$RESPONSE"
+
+          echo "$RESPONSE" | grep -q '"ok":true'
