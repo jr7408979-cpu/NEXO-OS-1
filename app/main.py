@@ -3,6 +3,7 @@ from typing import Any
 from fastapi import FastAPI
 
 from app.core.ai_executor import ai_executor
+from app.core.ai_router import ai_router
 from app.core.orchestrator import orchestrator
 from app.core.boot_manager import BootManager
 from app.integrations.discord import discord_service
@@ -63,7 +64,7 @@ def ai_status() -> dict[str, Any]:
     """Estado del sistema de IA."""
     return {
         "configured": orchestrator.ai_available,
-        "available_models": [],
+        "available_models": ai_router.available_models(),
         "executor_ready": ai_executor is not None,
     }
 
