@@ -1,18 +1,39 @@
-name: Tests
+name: NEXO OS Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Instalar librerías
-        run: pip install -r nexo/requirements.txt
-      - name: Revisar que el código no tenga errores de sintaxis
-        run: python -m compileall app
-      - name: Correr pruebas
-        run: pytest || [ $? -eq 5 ]
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r nexo/requirements.txt
+
+      - name: Revisar sintaxis
+        run: |
+          python -m compileall app
+
+      - name: Ejecutar pruebas
+        run: |
+          pytest -q
+          status=$?
+          if [ "$status" -ne 0 ] && [ "$status" -ne 5 ]; then
+            exit "$status"
+          fi
