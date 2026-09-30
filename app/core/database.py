@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
 
@@ -38,6 +39,7 @@ def initialize_database() -> None:
         connection.commit()
 
 
+@contextmanager
 def connection_context() -> Iterator[sqlite3.Connection]:
     """Proporciona una conexión para operaciones de base de datos."""
 
